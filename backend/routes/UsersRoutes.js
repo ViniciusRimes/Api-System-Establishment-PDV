@@ -9,7 +9,7 @@ router.post('/register', [
     body('confirmPassword').notEmpty().withMessage('O campo COFIRMAR SENHA nÃo pode estar vazio!')
 ] , UsersController.register)
 
-router.post('/login/:id', UsersController.login)
+router.post('/login', UsersController.login)
 
 router.get('/getusers', UsersController.getUsers)
 

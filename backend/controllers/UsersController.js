@@ -43,10 +43,9 @@ module.exports = class UsersController{
         }
     }
     static async login(req, res){
-        const id = req.params.id || req.body.id
-        const {password} = req.body
+        const {name, password} = req.body
         
-        const user = await Users.findOne({where: {id: id}})
+        const user = await Users.findOne({where: {name: name}})
         if(!user){
             res.status(422).json({message: 'Usuário não encontrado!'})
             return
