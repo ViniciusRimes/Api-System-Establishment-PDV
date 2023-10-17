@@ -16,12 +16,12 @@ const getUserByTokenFunction = async (req, res)=>{
         const userId = decoded.id
         const userExists = await Users.findOne({where: {id: userId}})
         if(!userExists){
-            res.status(422).json({message: "Usuário não encontrado!"})
+            res.status(404).json({message: "Usuário não encontrado!"})
             return
         }
         return userExists
     }catch(error){
-        res.status(422).json({message: error})
+        res.status(403).json({message: error})
     }
     
 }

@@ -22,7 +22,7 @@ module.exports = class ProductController{
         const {name, price, barcode, totalAmount} = req.body
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            res.status(422).json({message: errors})
+            res.status(400).json({message: errors})
             return
         }
         const establishment = await getEstablishmentByToken(req, res)
@@ -35,9 +35,9 @@ module.exports = class ProductController{
         }
         try{
             await Product.create(product)
-            res.status(200).json({message: "Produto cadastrado!"})
+            res.status(201).json({message: "Produto cadastrado!"})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async delete(req, res){
@@ -45,14 +45,14 @@ module.exports = class ProductController{
         const id = req.params.id
         const productExists = await Product.findOne({where: {id: id}})
             if(!productExists){
-                res.status(422).json({message: "Produto não encontrado!"})
+                res.status(404).json({message: "Produto não encontrado!"})
                 return
             }
         try{
             await Product.destroy({where: {id: id}})
             res.status(200).json({message: "Produto excluído!"})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async editProduct(req, res){
@@ -71,7 +71,7 @@ module.exports = class ProductController{
             await Product.update(product, {where: {id: id}})
             res.status(200).json({message: 'Produto atualizado!'})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async getAllProducts(req, res){
@@ -84,7 +84,7 @@ module.exports = class ProductController{
         try{
             res.status(200).send(products)
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async getProductById(req, res){
@@ -93,13 +93,13 @@ module.exports = class ProductController{
         const establishment = await getEstablishmentByToken(req, res)
         const product = await Product.findOne({where: {id: id, EstablishmentId: establishment.id} })
         if(!product){
-            res.status(422).json({message: 'Produto não encontrado!'})
+            res.status(404).json({message: 'Produto não encontrado!'})
             return
         }
         try{
             res.status(200).json({message: product})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async getProductsByName(req, res){
@@ -115,13 +115,13 @@ module.exports = class ProductController{
             }
         })
         if(products.length === 0){
-            res.status(422).json({message: 'Produto não encontrado!'})
+            res.status(404).json({message: 'Produto não encontrado!'})
             return
         }
         try{
             res.status(200).json({message: 'Produtos cadastrados: ', products: products})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async addCart(req, res){
@@ -154,11 +154,11 @@ module.exports = class ProductController{
         const product = await Product.findOne({where: {id: id}})
         
         if(!product){
-            res.status(422).json({message: 'Produto não encontrado!'})
+            res.status(404).json({message: 'Produto não encontrado!'})
             return
         }
         if(product.totalAmount - quantity < 0){
-            res.status(422).json({message: 'Produto indisponível na quantidade selecionada!'})
+            res.status(400).json({message: 'Produto indisponível na quantidade selecionada!'})
             return
         }
         const cartProducts = {
@@ -179,7 +179,7 @@ module.exports = class ProductController{
                 await CartProduct.create(cartProducts)
             }
             
-            res.status(200).json({message: 'Produto adicionado!'})
+            res.status(201).json({message: 'Produto adicionado!'})
         }catch(error){
             return res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
@@ -196,14 +196,14 @@ module.exports = class ProductController{
         const product = await Product.findAll({where: {id: cartProductsIds}})
         
         if(!product){
-            res.status(422).json({message: 'Produto não encontrado!'})
+            res.status(404).json({message: 'Produto não encontrado!'})
             return
         }
         
         try{
             res.status(200).json({message: cartProducts, product: product})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     static async updateStock(req, res){
@@ -212,7 +212,7 @@ module.exports = class ProductController{
         const cartId = req.params.id
         const cart = await Cart.findOne({where: {id: cartId}})
         if(cart.checkSale){
-            res.status(422).json({message: 'O carrinho selecionado já foi vendido!'})
+            res.status(400).json({message: 'O carrinho selecionado já foi vendido!'})
             return
         }
         const productsInCart = await CartProduct.findAll({
@@ -226,11 +226,11 @@ module.exports = class ProductController{
             
             const product = await Product.findOne({where: {id: productId}})
             if(!product){
-                res.status(422).json({message: 'Produto não encontrado!'})
+                res.status(404).json({message: 'Produto não encontrado!'})
                 return
             }
             if(product.totalAmount - qtyInCart < 0){
-                res.status(422).json({message: `Produto indisponível na quantidade selecionada!`})
+                res.status(400).json({message: `Produto indisponível na quantidade selecionada!`})
                 return
             }
         }
@@ -247,7 +247,7 @@ module.exports = class ProductController{
             }
             res.status(200).json({message: 'Estoque atualizado!'})
         }catch(error){
-            res.status(422).json({message: 'Erro em processar sua solicitação!' + error})
+            res.status(500).json({message: 'Erro em processar sua solicitação!' + error})
         }
     }
     static async expirationCart(req, res){
@@ -268,7 +268,7 @@ module.exports = class ProductController{
             }
             res.status(200).json({message: 'Lista de carrinhos atualizados!'})
         }catch(error){
-            res.status(422).json({message: 'Erro em processar sua solicitação!' + error})
+            res.status(500).json({message: 'Erro em processar sua solicitação!' + error})
         }
         
     }

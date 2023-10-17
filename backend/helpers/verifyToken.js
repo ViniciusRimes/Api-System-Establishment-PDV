@@ -11,7 +11,7 @@ async function verifyOneToken(req, res, next){
     }
     jwt.verify(token,process.env.SECRET, function(error, decoded){
         if(error){
-            res.status(422).json({message: 'Token inválido'})
+            res.status(403).json({message: 'Token inválido'})
         }else{
             req.SupermarketId = decoded.id
             next()

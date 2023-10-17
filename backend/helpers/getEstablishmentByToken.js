@@ -14,12 +14,12 @@ const getEstablishmentByTokenFunction = async (req, res)=>{
         const establishmentId = decoded.id
         const establishmentExists = await Establishment.findOne({where: {id: establishmentId}})
         if(!establishmentExists){
-            res.status(422).json({message: "Usuário não encontrado!"})
+            res.status(404).json({message: "Usuário não encontrado!"})
             return
         }
         return establishmentExists
     }catch(error){
-        res.status(422).json({message: error})
+        res.status(403).json({message: error})
     }
     
 }

@@ -15,19 +15,19 @@ module.exports = class EstablishmentController{
         
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            return res.status(422).json({message: errors})
+            return res.status(400).json({message: errors})
         }
         
         const salt = bcryptjs.genSaltSync(10)
         const passwordHash = bcryptjs.hashSync(password, salt)
         
         if(password !== confirmPassword){
-            return res.status(422).json({message: 'As senhas precisam ser iguais'})
+            return res.status(400).json({message: 'As senhas precisam ser iguais'})
         }
         const establishmentExists = await Establishment.findOne({where:
         {email: email}})
         if(establishmentExists){
-            res.status(422).json({message: 'E-mail já cadastrado, utilize outro ou entre em sua conta!'})
+            res.status(409).json({message: 'E-mail já cadastrado, utilize outro ou entre em sua conta!'})
             return
         }
         const establishment = {
@@ -43,9 +43,9 @@ module.exports = class EstablishmentController{
         }
         try{
             await Establishment.create(establishment) 
-            res.status(200).json({message: 'Estabelecimento cadastrado!'})
+            res.status(201).json({message: 'Estabelecimento cadastrado!'})
         }catch(error){
-            res.status(422).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
+            res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
     //LOGIN DE USUARIO USANDO EMAIL E SENHA
@@ -60,21 +60,21 @@ module.exports = class EstablishmentController{
         const establishment = await Establishment.findOne({where: {email: email}})
 
         if(!establishment){
-            res.status(422).json({message: 'Não existe nenhum usuário com este e-mail, crie sua conta e tente novamente!'})
+            res.status(409).json({message: 'Não existe nenhum usuário com este e-mail, crie sua conta e tente novamente!'})
             return
         }
         
         const checkPassword = await bcryptjs.compare(password, establishment.password)
         
         if(!checkPassword){
-            res.status(422).json({message: 'Senha incorreta!'})
+            res.status(400).json({message: 'Senha incorreta!'})
             return
         }
         try{
             await createToken(establishment, req, res) 
-            res.status(200)
+            res.status(201)
         }catch(error){
-            res.status(422).json()
+            res.status(500).json()
         }
         
     }
@@ -87,13 +87,13 @@ module.exports = class EstablishmentController{
                 const currentEstablishment = await Establishment.findOne({ where: { id: decoded.id } });
         
                 if (!currentEstablishment) {
-                res.status(422).json({ message: 'Usuário não encontrado!' });
+                res.status(404).json({ message: 'Estabelecimento não encontrado!' });
                 return;
                 }
                 currentEstablishment.password = '';
                 res.status(200).send(currentEstablishment)
             }catch (error){
-                res.status(422).json({ message: error.message});
+                res.status(500).json({ message: error});
             }
         }else{
             res.status(401).json({ message: 'Acesso negado!' });
@@ -106,7 +106,7 @@ module.exports = class EstablishmentController{
         const {name, proprietary, email, password, confirmPassword, phone, cnpj, state, city, zipcode} = req.body
         
         if(password !== confirmPassword){
-            return res.status(422).json({message: 'As senhas precisam ser iguais'})
+            return res.status(400).json({message: 'As senhas precisam ser iguais'})
         }
         
         const salt = bcryptjs.genSaltSync(10)
@@ -126,7 +126,7 @@ module.exports = class EstablishmentController{
         const establishmentExists = await Establishment.findOne({where:{email: email}})
 
         if(establishmentExists){
-            res.status(422).json({message: "O e-mail já está sendo utilizado, escolha outro e tente novamente!"})
+            res.status(409).json({message: "O e-mail já está sendo utilizado, escolha outro e tente novamente!"})
             return
         }
         try{
