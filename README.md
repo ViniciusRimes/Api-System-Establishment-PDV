@@ -73,7 +73,9 @@ Aqui está um exemplo de como fazer uma solicitação autenticada utilizando o t
 - `GET /product/all`
 Authorization: Bearer __SEU_TOKEN_JWT_AQUI__
 
-__Possíveis Erros de Autenticação__
+__Possíveis Erros de Autenticação__  
+
+
 Caso ocorram erros de autenticação, a API retornará as mensagens de erro apropriadas para ajudar a solucionar problemas de autenticação.
 
 Certifique-se de proteger seu token JWT e nunca compartilhá-lo publicamente. Mantenha suas credenciais seguras para garantir a segurança da sua conta.
@@ -101,16 +103,9 @@ Siga estas etapas para instalar e configurar a API System Establishment PDV:
    git clone https://github.com/seu-usuario/api-system-establishment-pdv.git
 
 
-Contribuição
-Se você deseja permitir que outras pessoas contribuam para o seu projeto, explique como elas podem fazê-lo.
-
 Licença
 Declare a licença sob a qual seu projeto é lançado. Exemplo: MIT License.
 
-Contato
-Forneça informações de contato para você ou sua equipe.
-
-Exemplos
-Se você tiver exemplos de código ou casos de uso da sua API, inclua-os aqui.
-
-Isso é apenas um exemplo de como você pode estruturar o README. Certifique-se de adaptá-lo às necessidades específicas do seu projeto. Um README bem elaborado pode ser uma ferramenta valiosa para ajudar os usuários a entender e usar sua API.
+## Contato
+- 📧 E-mail: viniciusrimess@gmail.com
+- 💼 LinkedIn: [Vinícius Rimes de Oliveira](https://www.linkedin.com/in/vin%C3%ADcius-rimes-de-oliveira-053846253/)
