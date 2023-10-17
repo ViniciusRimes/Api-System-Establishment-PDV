@@ -102,10 +102,6 @@ Siga estas etapas para instalar e configurar a API System Establishment PDV:
    ```shell
    git clone https://github.com/seu-usuario/api-system-establishment-pdv.git
 
-
-Licença
-Declare a licença sob a qual seu projeto é lançado. Exemplo: MIT License.
-
 ## Contato
 - 📧 E-mail: viniciusrimess@gmail.com
 - 💼 LinkedIn: [Vinícius Rimes de Oliveira](https://www.linkedin.com/in/vin%C3%ADcius-rimes-de-oliveira-053846253/)
