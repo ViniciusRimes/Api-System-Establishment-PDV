@@ -16,6 +16,9 @@ function generateNumber(){
     const max = 10**13 -1
     return Math.floor(Math.random() * (max-min + 1) + min)
 }
+function calculateTotalAmount(quantity, price){
+    return quantity * price
+}
 module.exports = class ProductController{
     //CRIACAO DO PRODUTO
     static async create(req, res){
@@ -184,7 +187,7 @@ module.exports = class ProductController{
             return res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
-    static async getCart(req, res){
+    static async getCart(req, res, cart){
         //OBTEM OS PRODUTOS DE UM DETERMINADO CARRINHO(PEGANDO PELO ID) E RESPONSE COM JSON
         const id = req.params.id
         const cartProducts = await CartProduct.findAll({where: {cartId: id}})
@@ -199,13 +202,27 @@ module.exports = class ProductController{
             res.status(404).json({message: 'Produto não encontrado!'})
             return
         }
+        const cartDetails = []
+        for(let i = 0; i < cartProducts.length; i++){
+            const quantity =  cartProducts[i].quantity
+            const price = product[i].price
+            const itemTotal = quantity * price
+            cartDetails.push({
+                name: product[i].name,
+                price: price,
+                quantity: quantity,
+                total: itemTotal
+            })
+        }
+        const totalAmountCart = cartDetails.reduce((acc, item)=>acc + item.total, 0)
         
         try{
-            res.status(200).json({message: cartProducts, product: product})
+            res.status(200).json({cartDetails: cartDetails, totalAmountCart: totalAmountCart})
         }catch(error){
             res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
     }
+    
     static async updateStock(req, res){
         //UPDATE DE ESTOQUE, BUSCA OS PRODUTOS DE UM CARRINHO E ASSIM QUE SE FECHAR A COMPRA REALIZA A MODIFICACAO. 
         //SE A QUANTIDADE ESCOLHIDA PELO CLIENTE FOR MAIOR QUE A QUANTIDADE DISPONIVEL EM ESTOQUE, LANCA UM ERRO!

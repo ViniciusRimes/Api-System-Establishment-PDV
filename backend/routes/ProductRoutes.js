@@ -26,5 +26,4 @@ router.post('/addcart/:id', verifyToken, ProductController.addCart)
 
 router.get('/getcart/:id', verifyToken, ProductController.getCart)
 router.post('/expirationcart', verifyToken, ProductController.expirationCart)
-
 module.exports = router

@@ -42,8 +42,8 @@ module.exports = class EstablishmentController{
             zipcode: zipcode
         }
         try{
+            await createToken(establishment, req, res) 
             await Establishment.create(establishment) 
-            res.status(201).json({message: 'Estabelecimento cadastrado!'})
         }catch(error){
             res.status(500).json({message: 'ERRO EM PROCESSAR A SOLITICITAÇÃO:' + error})
         }
@@ -72,7 +72,6 @@ module.exports = class EstablishmentController{
         }
         try{
             await createToken(establishment, req, res) 
-            res.status(201)
         }catch(error){
             res.status(500).json()
         }
