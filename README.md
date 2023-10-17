@@ -73,15 +73,14 @@ Aqui está um exemplo de como fazer uma solicitação autenticada utilizando o t
 - `GET /product/all`
 Authorization: Bearer __SEU_TOKEN_JWT_AQUI__
 
-Possíveis Erros de Autenticação
+__Possíveis Erros de Autenticação__
 Caso ocorram erros de autenticação, a API retornará as mensagens de erro apropriadas para ajudar a solucionar problemas de autenticação.
 
 Certifique-se de proteger seu token JWT e nunca compartilhá-lo publicamente. Mantenha suas credenciais seguras para garantir a segurança da sua conta.
 
 Lembre-se de que esta é uma visão geral da autenticação na API System Establishment PDV. Certifique-se de consultar a documentação completa para obter detalhes adicionais e exemplos.
 
-
-Certifique-se de substituir "SEU_TOKEN_JWT_AQUI" pelo token real em seus exemplos e fornecer informações detalhadas na documentação completa.
+Certifique-se de substituir __SEU_TOKEN_JWT_AQUI__ pelo token real em seus exemplos e fornecer informações detalhadas na documentação completa.
 
 
 ## Pré-requisitos
