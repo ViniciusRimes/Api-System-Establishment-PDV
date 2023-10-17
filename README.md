@@ -70,11 +70,10 @@ Os tokens JWT geralmente têm um tempo de vida limitado. Certifique-se de que se
 
 Aqui está um exemplo de como fazer uma solicitação autenticada utilizando o token JWT no cabeçalho:
 
-```http
-GET /product/all
+- `GET /product/all`
 Authorization: Bearer __SEU_TOKEN_JWT_AQUI__
 
-__Possíveis Erros de Autenticação__
+Possíveis Erros de Autenticação
 Caso ocorram erros de autenticação, a API retornará as mensagens de erro apropriadas para ajudar a solucionar problemas de autenticação.
 
 Certifique-se de proteger seu token JWT e nunca compartilhá-lo publicamente. Mantenha suas credenciais seguras para garantir a segurança da sua conta.
