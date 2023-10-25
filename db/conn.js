@@ -1,7 +1,7 @@
 const {Sequelize} = require('sequelize')
 
-const conn = new Sequelize('establishment', 'root', '16042003', {
+const conn = new Sequelize('establishment', 'admin', '16042003', {
     dialect: 'mysql',
-    host: 'localhost'
+    host: 'database-1.cdme6glddevi.sa-east-1.rds.amazonaws.com'
 })
 module.exports = conn
