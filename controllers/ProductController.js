@@ -289,4 +289,7 @@ module.exports = class ProductController{
         }
         
     }
+    static async hello(req, res){
+        res.send('Olá')
+    }
 }
