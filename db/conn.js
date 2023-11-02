@@ -1,7 +1,8 @@
 const {Sequelize} = require('sequelize')
+require('dotenv').config()
 
-const conn = new Sequelize('establishment', 'admin', 'vrdo1604', {
+const conn = new Sequelize('establishment', process.env.USER, process.env.PASSWORD, {
     dialect: 'mysql',
-    host: 'mydatabases.cdme6glddevi.sa-east-1.rds.amazonaws.com'
+    host: 'localhost'
 })
 module.exports = conn
