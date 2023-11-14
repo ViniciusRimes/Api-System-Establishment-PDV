@@ -100,7 +100,7 @@ Siga estas etapas para instalar e configurar a API System Establishment PDV:
 1. Clone o repositório a partir do GitHub:
 
    ```shell
-   git clone https://github.com/seu-usuario/api-system-establishment-pdv.git
+   git clone https://github.com/ViniciusRimes/api-system-establishment-pdv.git
 
 ## Contato
 - 📧 E-mail: viniciusrimess@gmail.com
